@@ -4,12 +4,12 @@ import {
   ExecutionContext,
   CallHandler,
   HttpException,
+  LoggerService,
 } from '@nestjs/common';
-import { LoggerService } from 'libs/common/logger/logger.service';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-  @Injectable()
+@Injectable()
 export class ErrorInterceptor implements NestInterceptor {
   constructor(private readonly loggerService: LoggerService) {}
 
@@ -18,9 +18,10 @@ export class ErrorInterceptor implements NestInterceptor {
       catchError((error) => {
         const ctx = context.getClass().name;
         const request = context.switchToHttp().getRequest();
-        const ipAddress = request.ip
-            || request.headers['x-forwarded-for']
-            || request.connection.remoteAddress;
+        const ipAddress =
+          request.ip ||
+          request.headers['x-forwarded-for'] ||
+          request.connection.remoteAddress;
 
         const metadata = {
           path: request.url,
