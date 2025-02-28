@@ -33,7 +33,7 @@ export class ResponseInterceptor implements NestInterceptor {
           // success: true,
           message: customResponse?.message || 'Request successful',
           statusCode: customResponse?.statusCode || 'S200',
-          ...data,
+          data,
         };
       }),
     );
