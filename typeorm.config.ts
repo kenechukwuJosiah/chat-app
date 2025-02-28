@@ -1,11 +1,11 @@
 import 'reflect-metadata';
 import 'dotenv/config';
-import { getDbConnectionParams } from '../../src/constant';
-import { User } from '../../src/user/entities';
 import { DataSource } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
-import { Room } from '../../src/chat/entities/room.entity';
-import { Message } from '../../src/chat/entities/message.entity';
+import { getDbConnectionParams } from './src/constant';
+import { Room } from './src/chat/entities/room.entity';
+import { Message } from './src/chat/entities/message.entity';
+import { User } from './src/user/entities';
 
 const configService = new ConfigService();
 const dbConnectionParams = getDbConnectionParams(configService);
@@ -17,7 +17,8 @@ export const AppDataSource = new DataSource({
   username: dbConnectionParams.username,
   password: dbConnectionParams.password,
   database: dbConnectionParams.database,
-  entities: [User, Room, Message],
-  synchronize: true,
-  migrations: [],
+  entities: [Room, Message, User],
+  migrations: ['./libs/migrations/*.ts'],
+  synchronize: false,
+  logging: true,
 });

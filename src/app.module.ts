@@ -6,6 +6,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { getDbConnectionParams } from './constant';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { User } from './user/entities';
+import { ChatModule } from './chat/chat.module';
+import { RoomModule } from './rooms/room.module';
 
 @Module({
   imports: [
@@ -13,6 +15,8 @@ import { User } from './user/entities';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    ChatModule,
+    RoomModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => {
